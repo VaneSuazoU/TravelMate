@@ -11,6 +11,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { ProfilePageModule } from './profile/profile.module';
 
+// Importaciones añadidas
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+import { DBTaskService } from './services/dbtask.service';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,7 +29,10 @@ import { ProfilePageModule } from './profile/profile.module';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideAnimationsAsync(),
-    provideNativeDateAdapter()
+    provideNativeDateAdapter(),
+    // Proveedores añadidos
+    SQLite,
+    DBTaskService
   ],
   bootstrap: [AppComponent]
 })
