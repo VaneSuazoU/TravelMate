@@ -11,6 +11,7 @@ export class DBTaskService {
   private dbInstance: SQLiteObject | null = null; 
   readonly dbName: string = 'travelmate.db';
   readonly dbTable: string = 'user';
+  private isAuthenticatedValue: boolean = false;
 
   constructor(
     private platform: Platform, 
@@ -65,6 +66,7 @@ export class DBTaskService {
       }
     });
   }
+
   public async addUser(nombre: string, password: string): Promise<void> {
     if (this.platform.is('cordova')) {
       return this.addUserSQLite(nombre, password);
@@ -121,5 +123,22 @@ export class DBTaskService {
       console.error('Error getting user from json-server:', error);
       throw error;
     }
+  }
+
+  public async login(nombre: string, password: string): Promise<boolean> {
+    const user = await this.getUser(nombre, password);
+    if (user) {
+      this.isAuthenticatedValue = true;
+      return true;
+    }
+    return false;
+  }
+
+  public logout(): void {
+    this.isAuthenticatedValue = false;
+  }
+
+  public isAuthenticated(): boolean {
+    return this.isAuthenticatedValue;
   }
 }

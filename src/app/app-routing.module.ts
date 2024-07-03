@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -13,23 +14,28 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    canActivate:[AuthGuardService]
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule),
+    canActivate:[AuthGuardService]
   },
   {
     path: 'itineraries',
-    loadChildren: () => import('./itineraries/itineraries.module').then(m => m.ItinerariesPageModule)
+    loadChildren: () => import('./itineraries/itineraries.module').then(m => m.ItinerariesPageModule),
+    canActivate:[AuthGuardService]
   },
   {
     path: 'destinations',
-    loadChildren: () => import('./destinations/destinations.module').then(m => m.DestinationsPageModule)
+    loadChildren: () => import('./destinations/destinations.module').then(m => m.DestinationsPageModule),
+    canActivate:[AuthGuardService]
   },
   {
     path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule)
+    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule),
+    canActivate:[AuthGuardService]
   },
   {
     path: 'not-found',

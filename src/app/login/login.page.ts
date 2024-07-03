@@ -19,12 +19,12 @@ export class LoginPage {
     private alertController: AlertController,
     private dbTaskService: DBTaskService
   ) {}
-
+  
   async ingresar() {
     if (this.validarCampos()) {
       try {
-        const user = await this.dbTaskService.getUser(this.user.nombre, this.user.password);
-        if (user) {
+        const success = await this.dbTaskService.login(this.user.nombre, this.user.password);
+        if (success) {
           this.mostrarAlerta('Éxito', 'Inicio de sesión exitoso');
           this.router.navigate(['/home']);
         } else {
