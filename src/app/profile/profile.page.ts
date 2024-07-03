@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { animate, keyframes, style, AnimationBuilder } from '@angular/animations';
 import { ANIMATION_MODULE_TYPE } from '@angular/platform-browser/animations';
 import { AlertController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ export class ProfilePage {
   apellido: string = '';
   nivelEducacion: string = '';
   fechaNacimiento: Date = new Date();
+  profileImage: string | undefined;
 
   constructor(
     private activeroute: ActivatedRoute,
@@ -31,6 +33,21 @@ export class ProfilePage {
         this.router.navigate(['/profile']);
       }
     });
+  }
+
+  async takePhoto() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera
+      });
+
+      this.profileImage = image.dataUrl;
+    } catch (error) {
+      console.error('Error al tomar la foto', error);
+    }
   }
 
   limpiar() {

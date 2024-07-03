@@ -18,6 +18,7 @@
       <ion-label>
         <h2>{{ destination.name }}</h2>
         <p>{{ destination.description }}</p>
+        <p>Distancia: {{ getDistanceToDestination(destination) }}</p>
       </ion-label>
       <ion-icon name="location" slot="end"></ion-icon>
     </ion-item>

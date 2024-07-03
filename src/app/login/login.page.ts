@@ -22,28 +22,32 @@ export class LoginPage {
 
   async ingresar() {
     if (this.validarCampos()) {
-      this.dbTaskService.getUser(this.user.nombre, this.user.password)
-        .then(user => {
-          if (user) {
-            this.mostrarAlerta('Éxito', 'Inicio de sesión exitoso');
-            this.router.navigate(['/home']);
-          } else {
-            this.mostrarAlerta('Error', 'Credenciales inválidas');
-          }
-        })
-        .catch(e => this.mostrarAlerta('Error', 'Error al iniciar sesión: ' + e.message));
+      try {
+        const user = await this.dbTaskService.getUser(this.user.nombre, this.user.password);
+        if (user) {
+          this.mostrarAlerta('Éxito', 'Inicio de sesión exitoso');
+          this.router.navigate(['/home']);
+        } else {
+          this.mostrarAlerta('Error', 'Credenciales inválidas');
+        }
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        this.mostrarAlerta('Error', 'Ocurrió un error al iniciar sesión');
+      }
     }
   }
 
   async registrar() {
     if (this.validarCampos()) {
-      this.dbTaskService.addUser(this.user.nombre, this.user.password)
-        .then(() => {
-          this.mostrarAlerta('Éxito', 'Usuario registrado exitosamente');
-          this.user.nombre = '';
-          this.user.password = '';
-        })
-        .catch(e => this.mostrarAlerta('Error', 'Error registrando usuario: ' + e.message));
+      try {
+        await this.dbTaskService.addUser(this.user.nombre, this.user.password);
+        this.mostrarAlerta('Éxito', 'Usuario registrado exitosamente');
+        this.user.nombre = '';
+        this.user.password = '';
+      } catch (error) {
+        console.error('Error al registrar usuario:', error);
+        this.mostrarAlerta('Error', 'Ocurrió un error al registrar el usuario');
+      }
     }
   }
 

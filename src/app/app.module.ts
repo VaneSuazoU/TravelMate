@@ -10,10 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { ProfilePageModule } from './profile/profile.module';
-
-// Importaciones añadidas
+import { HttpClientModule } from '@angular/common/http'; 
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { DBTaskService } from './services/dbtask.service';
+import { ApiService } from './services/api.service'; 
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,15 +24,16 @@ import { DBTaskService } from './services/dbtask.service';
     MatDatepickerModule,
     MatInputModule,
     MatFormFieldModule,
-    ProfilePageModule
+    ProfilePageModule,
+    HttpClientModule // Añade esta línea
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideAnimationsAsync(),
     provideNativeDateAdapter(),
-    // Proveedores añadidos
     SQLite,
-    DBTaskService
+    DBTaskService,
+    ApiService // Añade esta línea
   ],
   bootstrap: [AppComponent]
 })

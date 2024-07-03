@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
+import { ApiService } from './api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +12,16 @@ export class DBTaskService {
   readonly dbName: string = 'travelmate.db';
   readonly dbTable: string = 'user';
 
-  constructor(private platform: Platform, private sqlite: SQLite) {
+  constructor(
+    private platform: Platform, 
+    private sqlite: SQLite,
+    private apiService: ApiService
+  ) {
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
         this.initializeDatabase();
       } else {
-        console.error('Cordova no está disponible. Asegúrate de ejecutar en un dispositivo o emulador.');
+        console.log('Usando json-server en lugar de SQLite.');
       }
     });
   }
@@ -59,18 +65,43 @@ export class DBTaskService {
       }
     });
   }
+  public async addUser(nombre: string, password: string): Promise<void> {
+    if (this.platform.is('cordova')) {
+      return this.addUserSQLite(nombre, password);
+    } else {
+      return this.addUserJsonServer(nombre, password);
+    }
+  }
 
-  public addUser(nombre: string, password: string): Promise<void> {
+  private addUserSQLite(nombre: string, password: string): Promise<void> {
     const data = [nombre, password];
     return this.ensureDatabaseInitialized().then((db: SQLiteObject) => {
       return db.executeSql(`INSERT INTO ${this.dbTable} (nombre, password) VALUES (?, ?)`, data)
         .then(() => {
-          console.log('User added');
+          console.log('User added to SQLite');
         });
     });
   }
 
-  public getUser(nombre: string, password: string): Promise<any> {
+  private async addUserJsonServer(nombre: string, password: string): Promise<void> {
+    try {
+      await firstValueFrom(this.apiService.addUser({ nombre, password }));
+      console.log('User added to json-server');
+    } catch (error) {
+      console.error('Error adding user to json-server:', error);
+      throw error;
+    }
+  }
+
+  public async getUser(nombre: string, password: string): Promise<any> {
+    if (this.platform.is('cordova')) {
+      return this.getUserSQLite(nombre, password);
+    } else {
+      return this.getUserJsonServer(nombre, password);
+    }
+  }
+
+  private getUserSQLite(nombre: string, password: string): Promise<any> {
     return this.ensureDatabaseInitialized().then((db: SQLiteObject) => {
       return db.executeSql(`SELECT * FROM ${this.dbTable} WHERE nombre = ? AND password = ?`, [nombre, password])
         .then(res => {
@@ -80,5 +111,15 @@ export class DBTaskService {
           return null;
         });
     });
+  }
+
+  private async getUserJsonServer(nombre: string, password: string): Promise<any> {
+    try {
+      const users = await firstValueFrom(this.apiService.getUser(nombre, password));
+      return users.length > 0 ? users[0] : null;
+    } catch (error) {
+      console.error('Error getting user from json-server:', error);
+      throw error;
+    }
   }
 }
