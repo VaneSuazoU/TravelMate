@@ -1,0 +1,47 @@
+<h2>Hola, {{ userData?.usuario || "Viajero" }}!</h2>
+<p>Aquí tienes algunas opciones para navegar por la aplicación:</p>
+
+<ion-list>
+  <ion-item>
+    <ion-icon name="home" slot="start"></ion-icon>
+    <ion-label>
+      <h3>Página principal</h3>
+      <p>
+        Estás aquí ahora. Puedes ver tus datos personales, experiencia y
+        certificaciones.
+      </p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item button [routerLink]="['/itineraries']" routerDirection="forward">
+    <ion-icon name="map" slot="start"></ion-icon>
+    <ion-label>
+      <h3>Ver Itinerarios</h3>
+      <p>Explora y gestiona tus planes de viaje.</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item button [routerLink]="['/destinations']" routerDirection="forward">
+    <ion-icon name="airplane" slot="start"></ion-icon>
+    <ion-label>
+      <h3>Ver Destinos</h3>
+      <p>Descubre nuevos lugares para visitar.</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item button [routerLink]="['/profile']" routerDirection="forward">
+    <ion-icon name="person" slot="start"></ion-icon>
+    <ion-label>
+      <h3>Perfil</h3>
+      <p>Edita tu información personal y preferencias.</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item button (click)="logout()">
+    <ion-icon name="log-out" slot="start"></ion-icon>
+    <ion-label>
+      <h3>Cerrar sesión</h3>
+      <p>Sal de tu cuenta de manera segura.</p>
+    </ion-label>
+  </ion-item>
+</ion-list>

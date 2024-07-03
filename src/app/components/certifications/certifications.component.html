@@ -1,0 +1,18 @@
+<ion-list>
+  <ion-item>
+    <ion-label position="floating">Nombre de la Certificación:</ion-label>
+    <ion-input type="text" [(ngModel)]="certificationName"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Fecha de Obtención:</ion-label>
+    <ion-input type="date" [(ngModel)]="obtainedDate"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Tiene Vencimiento:</ion-label>
+    <ion-checkbox [(ngModel)]="hasExpiration"></ion-checkbox>
+  </ion-item>
+  <ion-item *ngIf="hasExpiration">
+    <ion-label>Fecha de Vencimiento:</ion-label>
+    <ion-input type="date" [(ngModel)]="expirationDate"></ion-input>
+  </ion-item>
+</ion-list>

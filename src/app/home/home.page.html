@@ -1,20 +1,37 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/profile']" routerDirection="root">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logout()" color="danger" fill="outline">
+        Salir
+        <ion-icon slot="end" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <ion-segment [(ngModel)]="selectedComponent" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="personaldata">
+      <ion-icon name="home"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="experience">
+      <ion-icon name="briefcase-outline"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="certifications">
+      <ion-icon name="school-outline"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+  
+  <div [ngSwitch]="selectedComponent">
+    <app-personaldata *ngSwitchCase="'personaldata'" [userData]="userData"></app-personaldata>
+    <app-experience *ngSwitchCase="'experience'"></app-experience>
+    <app-certifications *ngSwitchCase="'certifications'"></app-certifications>
   </div>
 </ion-content>

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/profile']" routerDirection="root">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Configuraciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-list-header>Mantenimiento</ion-list-header>
+    <ion-item>
+      <ion-label>Eliminar cuenta</ion-label>
+      <ion-button color="danger" (click)="deleteAccount()">Eliminar</ion-button>
+    </ion-item>
+
+    <ion-list-header>Preferencias</ion-list-header>
+    <ion-item>
+      <ion-label>Tema oscuro</ion-label>
+      <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Notificaciones</ion-label>
+      <ion-toggle [(ngModel)]="notifications" (ionChange)="toggleNotifications()"></ion-toggle>
+    </ion-item>
+  </ion-list>
+</ion-content>
