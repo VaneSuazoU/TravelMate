@@ -1,0 +1,7 @@
+{
+  "name": "TravelMate",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
