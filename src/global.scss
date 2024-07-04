@@ -33,5 +33,21 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+@import "@ionic/angular/css/palettes/dark.class.css";
+//@import "@ionic/angular/css/palettes/dark.system.css";
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+:root {
+    --ion-color-primary: #006d7f;
+    --ion-color-secondary: #ff4081;
+    --background-color: #006d7f;
+    --button-color: #ff4081;
+    --input-background-color: #ffffff;
+    --input-border-color: #ffffff;
+    --text-color: #ffffff;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    color: var(--text-color);
+    background-color: #D1E1EE;
+  }
